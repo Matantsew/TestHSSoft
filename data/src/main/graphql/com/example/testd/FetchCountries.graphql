@@ -1,0 +1,13 @@
+query FetchCountries{
+    country(code: "DE") {
+        name
+        native
+        capital
+        emoji
+        currency
+        languages {
+            code
+            name
+        }
+    }
+}

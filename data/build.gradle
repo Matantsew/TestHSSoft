@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id("com.apollographql.apollo").version("2.5.9")
 }
 
 android {
@@ -29,6 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    apollo {
+        generateKotlinModels.set(true)
+    }
+
 }
 
 dependencies {
@@ -39,4 +45,10 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // The core runtime dependencies
+    implementation("com.apollographql.apollo:apollo-runtime:2.5.9")
+    // Coroutines extensions for easier asynchronicity handling
+    implementation("com.apollographql.apollo:apollo-coroutines-support:2.5.9")
+
 }
