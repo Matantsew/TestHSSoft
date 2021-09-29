@@ -1,5 +1,5 @@
-query FetchCountries{
-    country(code: "DE") {
+query getCountry($countryCode: ID!){
+    country(code: $countryCode) {
         name
         native
         capital
@@ -9,5 +9,12 @@ query FetchCountries{
             code
             name
         }
+    }
+}
+
+query getCountries{
+    countries{
+        name
+        code
     }
 }
