@@ -41,7 +41,8 @@ class CountriesRepositoryImpl @Inject constructor() : CountriesRepository {
                 name = data.country!!.name,
                 code = code,
                 nat = data.country.native_,
-                capital = data.country.capital.toString()
+                capital = data.country.capital.toString(),
+                flag = data.country.emoji
             )
         }
 

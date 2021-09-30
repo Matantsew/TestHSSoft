@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TestD</string>
+    <string name="details_txt">Details:</string>
+    <string name="country">Country</string>
+    <string name="nat">Native</string>
+    <string name="capital">Capital</string>
+    <string name="flag">Flag</string>
 </resources>

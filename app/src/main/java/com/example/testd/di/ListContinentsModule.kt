@@ -12,5 +12,6 @@ import dagger.Provides
 abstract class ListContinentsModule {
 
     @Binds
+    @ListCountriesScope
     abstract fun bindCountriesRepository(impl: CountriesRepositoryImpl): CountriesRepository
 }

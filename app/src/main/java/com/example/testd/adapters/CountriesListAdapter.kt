@@ -7,16 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.repository.entity.Country
 import com.example.testd.GetCountriesQuery
 import com.example.testd.databinding.CountryRowBinding
+import com.example.testd.ui.DetailsFragment
 import com.example.testd.ui.ListCountriesPresenter
 import javax.inject.Inject
 
-class CountriesListAdapter(val countries: List<Country>) : RecyclerView.Adapter<CountriesListAdapter.CountriesViewHolder>() {
-
-    @Inject
-    lateinit var presenter: ListCountriesPresenter
+class CountriesListAdapter(private val countries: List<Country>, private val onUpdateCountryInfo: DetailsFragment.OnUpdateCountryInfo) : RecyclerView.Adapter<CountriesListAdapter.CountriesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountriesViewHolder {
-        return CountriesViewHolder(CountryRowBinding.inflate(LayoutInflater.from(parent.context)))
+        return CountriesViewHolder(CountryRowBinding.inflate(LayoutInflater.from(parent.context)), onUpdateCountryInfo)
     }
 
     override fun getItemCount(): Int {
@@ -29,7 +27,7 @@ class CountriesListAdapter(val countries: List<Country>) : RecyclerView.Adapter<
          holder.bind(country, position + 1)
     }
 
-    class CountriesViewHolder(itemView: CountryRowBinding) : RecyclerView.ViewHolder(itemView.root){
+    class CountriesViewHolder(itemView: CountryRowBinding, private val onUpdateCountryInfo: DetailsFragment.OnUpdateCountryInfo) : RecyclerView.ViewHolder(itemView.root){
 
         private var binding = itemView
 
@@ -39,7 +37,7 @@ class CountriesListAdapter(val countries: List<Country>) : RecyclerView.Adapter<
             binding.countryName.text = country.name
 
             binding.root.setOnClickListener {
-                country.code
+                onUpdateCountryInfo.onUpdate(country.code)
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.apollographql.apollo.coroutines.await
 import com.example.data.apolloClient
+import com.example.domain.repository.entity.Country
 import com.example.testd.GetCountriesQuery
 import com.example.testd.GetCountryQuery
 import com.example.testd.databinding.FragmentDetailsBinding
@@ -24,8 +25,23 @@ class DetailsFragment : Fragment(){
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    fun setCountryName(name: String){
+        binding.countryText.text = name
+    }
 
+    fun setCountryNat(nat: String?){
+        binding.natText.text = nat
+    }
+
+    fun setCountryCapital(capital: String?){
+        binding.capitalText.text = capital
+    }
+
+    fun setCountryFlag(flag: String?){
+        binding.flagText.text = flag
+    }
+
+    interface OnUpdateCountryInfo{
+        fun onUpdate(countryCode: String)
     }
 }

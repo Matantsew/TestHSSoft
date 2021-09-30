@@ -1,5 +1,6 @@
 package com.example.testd.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ class ListContinentsFragment : Fragment(), ListCountriesContract.View{
 
     private lateinit var binding: FragmentListContinentsBinding
     private lateinit var component: ListCountriesComponent
+    private lateinit var onUpdateCountryInfo: DetailsFragment.OnUpdateCountryInfo
 
     @Inject
     lateinit var presenter: ListCountriesPresenter
@@ -48,7 +50,13 @@ class ListContinentsFragment : Fragment(), ListCountriesContract.View{
         val countries = presenter.fetchListOfCountries()
 
         binding.listContinents.layoutManager = LinearLayoutManager(context)
-        binding.listContinents.adapter = CountriesListAdapter(countries!!)
+        binding.listContinents.adapter = CountriesListAdapter(countries!!, onUpdateCountryInfo)
         binding.listContinents.setHasFixedSize(true)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        onUpdateCountryInfo = context as DetailsFragment.OnUpdateCountryInfo
     }
 }
