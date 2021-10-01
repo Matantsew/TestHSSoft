@@ -4,11 +4,17 @@ import com.example.domain.repository.entity.Country
 
 interface ListCountriesContract {
 
-    suspend fun fetchListOfCountries(): List<Country>?
+    interface View : BaseView{
 
-    suspend fun obtainCountryByCode(code: String): Country?
+        fun showList(countries: List<Country>)
+    }
 
-    interface View{
-        suspend fun initializeList()
+    interface Presenter {
+
+        fun bindView(view: View)
+
+        fun initUI()
+
+        fun unbindView()
     }
 }

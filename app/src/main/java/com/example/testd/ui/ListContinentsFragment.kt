@@ -2,16 +2,12 @@ package com.example.testd.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.apollographql.apollo.coroutines.await
-import com.example.data.apolloClient
-import com.example.testd.GetCountriesQuery
+import com.example.domain.repository.entity.Country
 import com.example.testd.adapters.CountriesListAdapter
 import com.example.testd.databinding.FragmentListContinentsBinding
 import com.example.testd.di.DaggerListCountriesComponent
@@ -20,43 +16,56 @@ import javax.inject.Inject
 
 class ListContinentsFragment : Fragment(), ListCountriesContract.View{
 
-    private lateinit var binding: FragmentListContinentsBinding
+    private var binding: FragmentListContinentsBinding? = null
     private lateinit var component: ListCountriesComponent
     private lateinit var onUpdateCountryInfo: DetailsFragment.OnUpdateCountryInfo
 
     @Inject
     lateinit var presenter: ListCountriesPresenter
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        onUpdateCountryInfo = context as DetailsFragment.OnUpdateCountryInfo
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
-        binding = FragmentListContinentsBinding.inflate(inflater)
-
-        component = DaggerListCountriesComponent.create()
-        component.inject(this)
-
-        return binding.root
+        return FragmentListContinentsBinding.inflate(inflater).let {
+            component = DaggerListCountriesComponent.create()
+            component.inject(this)
+            binding = it
+           return@let it.root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter.bindView(this)
+        presenter.initUI()
+    }
 
-        lifecycleScope.launchWhenResumed {
-            initializeList()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+        presenter.unbindView()
+    }
+
+    override fun showList(countries: List<Country>) {
+        binding?.run {
+            listContinents.layoutManager = LinearLayoutManager(context)
+            listContinents.adapter = CountriesListAdapter(countries, onUpdateCountryInfo)
+            listContinents.setHasFixedSize(true)
         }
     }
 
-    override suspend fun initializeList(){
+    override fun showProgress() {
 
-        val countries = presenter.fetchListOfCountries()
-
-        binding.listContinents.layoutManager = LinearLayoutManager(context)
-        binding.listContinents.adapter = CountriesListAdapter(countries!!, onUpdateCountryInfo)
-        binding.listContinents.setHasFixedSize(true)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun hideProgress() {
 
-        onUpdateCountryInfo = context as DetailsFragment.OnUpdateCountryInfo
+    }
+
+    override fun showError() {
+        TODO("Not yet implemented")
     }
 }

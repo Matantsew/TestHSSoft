@@ -1,15 +1,11 @@
 package com.example.testd.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.repository.entity.Country
-import com.example.testd.GetCountriesQuery
 import com.example.testd.databinding.CountryRowBinding
 import com.example.testd.ui.DetailsFragment
-import com.example.testd.ui.ListCountriesPresenter
-import javax.inject.Inject
 
 class CountriesListAdapter(private val countries: List<Country>, private val onUpdateCountryInfo: DetailsFragment.OnUpdateCountryInfo) : RecyclerView.Adapter<CountriesListAdapter.CountriesViewHolder>() {
 
